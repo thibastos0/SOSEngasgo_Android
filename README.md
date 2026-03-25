@@ -22,7 +22,7 @@ Para colaborar ou testar o aplicativo em sua máquina:
 
 ## 🤝 Metodologia de Trabalho (Para Colaboradores)
 1. **PULL antes de tudo:** Clique na **Seta Azul** (Update Project) antes de começar.
-2. **Commits Claros:** Salve pequenas alterações com mensagens descritivas.
+2. **Commits Claros:** Salve pequenas alterações com mensagens descritivas. Usem mensagens diretas: "Adicionada validação de CPF", "Corrigido erro no botão Voltar". Isso ajudará muito na revisão do histórico.
 3. **PUSH frequente:** Envie para o GitHub para que os colegas vejam.
 
 ---
