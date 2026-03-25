@@ -1,0 +1,25 @@
+# Arquivos do Sistema Operacional
+Thumbs.db
+.DS_Store
+
+# Android Studio / IDE
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Gradle
+.gradle/
+build/
+
+# Configurações Locais (CRÍTICO)
+local.properties
+/local.properties
+
+# Log de erros e capturas
+/captures/
+*.log
+
+# Arquivos de análise nativa (C++)
+.externalNativeBuild
+.cxx/
