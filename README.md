@@ -50,10 +50,10 @@ Para colaborar ou testar o aplicativo em sua máquina:
 
 ---
 ## 👥 Equipe
-* **Thiago Bastos** (@thibastos0)
-* **Gustavo**
-* **Lucas**
-* **Ruylis**
+* **Thiago Bastos** [thibastos0](https://github.com/thibastos0)
+* **Gustavo Martins** [GustaMMartins](https://github.com/GustaMMartins)
+* **Lucas Corrêa** [Lucas-C3p](https://github.com/Lucas-C3p)
+* **Ruylis Bialta** [ruylis](https://github.com/ruylis)
 
 ---
 *Este projeto tem fins educacionais e busca disseminar conhecimento sobre primeiros socorros.*
