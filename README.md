@@ -43,12 +43,20 @@ Para colaborar ou testar o aplicativo em sua máquina:
 * **Ferramenta de Build:** Gradle.
 * **Versionamento:** Git & GitHub.
 
-## 🤝 Metodologia de Trabalho (Para Colaboradores)
-1. **PULL antes de tudo:** Clique na **Seta Azul** (Update Project) antes de começar.
-2. **Commits Claros:** Salve pequenas alterações com mensagens descritivas. Usem mensagens diretas: "Adicionada validação de CPF", "Corrigido erro no botão Voltar". Isso ajudará muito na revisão do histórico.
-3. **PUSH frequente:** Envie para o GitHub para que os colegas vejam.
+## 🤝 Metodologia de Trabalho (Fluxo de Branch e Pull Request)
+Para garantir a estabilidade do código, **não é permitido dar Push direto na `main`**. Siga este fluxo:
+
+1. **PULL antes de tudo:** Certifique-se de estar na branch `main` e dê um `git pull`.
+2. **Crie uma BRANCH:** No canto inferior direito do Android Studio, clique em `Git: main` > `New Branch`. Use nomes descritivos (ex: `feature-login`, `fix-layout-home`).
+3. **Desenvolva e Commite:** Faça suas alterações e dê o `Commit` normalmente na sua branch.
+4. **PUSH da Branch:** Dê o `Push` da sua branch para o GitHub.
+5. **Abra um PULL REQUEST (PR):** - Vá ao site do GitHub. 
+   - Clique no botão amarelo **"Compare & pull request"**.
+   - Descreva o que você fez e solicite a revisão.
+6. **REVISÃO e MERGE:** O dono do projeto (ou outro colega) revisará o código. Se estiver tudo OK, o Merge será feito para a `main`.
 
 ---
+
 ## 👥 Equipe
 * **Thiago Bastos** [thibastos0](https://github.com/thibastos0)
 * **Gustavo Martins** [GustaMMartins](https://github.com/GustaMMartins)
