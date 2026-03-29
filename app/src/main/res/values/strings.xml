@@ -1,9 +1,10 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">SOS Engasgo</string>
+    <string name="app_telaCadastro">Cadastrar Usuário</string>
     <string name="welcome_title">Bem-vindo ao SOS Engasgo</string>
     <string name="welcome_subtitle">Um sistema pensado para emergências infantis — rápido, simples e seguro.</string>
     <string name="btn_login">Entrar</string>
-    <string name="btn_register">Criar cadastro</string>
+    <string name="btn_signup">Criar cadastro</string>
     <string name="btn_save">Salvar</string>
     <string name="btn_cancel">Cancelar</string>
     <string name="btn_close">Encerrar</string>
@@ -12,10 +13,9 @@
     <string name="hint_email">nome@exemplo.com</string>
     <string name="hint_password">Sua senha</string>
     <string name="hint_name">Nome Completo</string>
-    <string name="hint_phone">(00) 00000-0000</string>
+    <string name="hint_phone" tools:ignore="TypographyDashes">(00) 00000-0000</string>
     <string name="hint_confirm_password">Confirmar Senha</string>
     <string name="img_logo_desc">Ícone de coração na cor vermelha com fina linha de pulso branco cortando na vertical"</string>
-    <string name="title_register">Cadastrar Usuário</string>
     <string name="label_personal_info">Informações Pessoais</string>
     <string name="label_heimlich">Manobras de desengasgo</string>
 </resources>

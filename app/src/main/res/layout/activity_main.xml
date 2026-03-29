@@ -95,7 +95,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/white"
         android:shadowRadius="0"
-        android:text="@string/btn_register"
+        android:text="@string/btn_signup"
         android:textColor="@color/primary_red"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/guidelineh3"
