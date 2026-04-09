@@ -1,8 +1,10 @@
 package com.example.sosengasgo_android;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
@@ -10,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Button btn_login,btn_signup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,8 +26,20 @@ public class MainActivity extends AppCompatActivity {
         });
         */
 
+        btn_login = findViewById(R.id.btn_login);
+
+        btn_login.setOnClickListener(v -> navegaTelaLogin());
 
 
+
+
+
+
+    }
+
+    private void navegaTelaLogin(){
+        Intent telaLogin = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(telaLogin);
     }
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
