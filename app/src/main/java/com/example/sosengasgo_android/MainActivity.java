@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+// teste commit (gustavo)
+
 public class MainActivity extends AppCompatActivity {
 
     private Button btn_login,btn_signup;
