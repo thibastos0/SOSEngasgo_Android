@@ -8,14 +8,18 @@
     <string name="btn_save">Salvar</string>
     <string name="btn_cancel">Cancelar</string>
     <string name="btn_close">Encerrar</string>
+    <string name="btn_acionar">ACIONAR</string>
+    <string name="emergency_title">Emergência</string>
     <string name="emergency_action">ACIONAR</string>
     <string name="emergency_warning">Em caso de engasgo, pressione o botão abaixo imediatamente</string>
+    <string name="hint_toque_para_acionar">Toque para acionar socorro.</string>
     <string name="hint_email">nome@exemplo.com</string>
     <string name="hint_password">Sua senha</string>
     <string name="hint_name">Nome Completo</string>
     <string name="hint_phone" tools:ignore="TypographyDashes">(00) 00000-0000</string>
     <string name="hint_confirm_password">Confirmar Senha</string>
     <string name="img_logo_desc">Ícone de coração na cor vermelha com fina linha de pulso branco cortando na vertical"</string>
+    <string name="img_btn_emergency_desc">"Botão de Emergência"</string>
     <string name="label_personal_info">Informações Pessoais</string>
     <string name="label_heimlich">Manobras de desengasgo</string>
 </resources>
