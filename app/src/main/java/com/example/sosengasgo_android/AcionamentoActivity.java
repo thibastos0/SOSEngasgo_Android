@@ -24,7 +24,7 @@ public class AcionamentoActivity extends AppCompatActivity {
     }
 
     private void navegaTelaSucesso(){
-       // Intent telaSucesso = new Intent(AcionamentoActivity.this, SucessoActivity.class);
-        //startActivity(telaSucesso);
+        Intent telaSucesso = new Intent(AcionamentoActivity.this, SucessoActivity.class);
+        startActivity(telaSucesso);
     }
 }
