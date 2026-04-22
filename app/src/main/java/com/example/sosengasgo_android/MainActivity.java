@@ -35,13 +35,6 @@ public class MainActivity extends AppCompatActivity {
         btn_login.setOnClickListener(v -> navegaTelaLogin());
         btn_signup.setOnClickListener(v ->  navegaTelaCadastro());
 
-
-
-
-
-
-
-
     }
 
     private void navegaTelaLogin(){

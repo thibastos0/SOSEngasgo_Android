@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SOSEngasgo_Android">
         <activity
+            android:name=".AcionamentoActivity"
+            android:exported="false" />
+        <activity
             android:name=".CadastroActivity"
             android:exported="false" />
         <activity
