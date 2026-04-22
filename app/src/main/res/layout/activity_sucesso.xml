@@ -1,0 +1,65 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/txt_status"
+            style="@style/telaTitulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SOCORRO ACIONADO!"
+            android:textColor="@color/primary_red"
+            android:textAlignment="center"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txt_instrucao_topo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ajuda a caminho. Inicie a manobra agora:"
+            android:textAlignment="center"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/txt_status" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_video"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginTop="20dp"
+            app:cardCornerRadius="12dp"
+            app:layout_constraintTop_toBottomOf="@id/txt_instrucao_topo">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/placeholder_heimlich" /> </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/txt_passo_a_passo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="1. Posicione-se atrás da criança...\n2. Feche a mão e pressione..."
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/card_video" />
+
+        <Button
+            android:id="@+id/btn_finalizar"
+            style="@style/btnPattern"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Socorro Chegou / Encerrar"
+            app:layout_constraintTop_toBottomOf="@id/txt_passo_a_passo" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
