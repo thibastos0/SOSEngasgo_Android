@@ -9,6 +9,7 @@
     <string name="btn_cancel">Cancelar</string>
     <string name="btn_close">Encerrar</string>
     <string name="btn_acionar">ACIONAR</string>
+    <string name="btn_finalizar">Socorro Chegou / Encerrar</string>
     <string name="emergency_title">Emergência</string>
     <string name="emergency_action">ACIONAR</string>
     <string name="emergency_warning">Em caso de engasgo, pressione o botão abaixo imediatamente</string>
@@ -20,6 +21,12 @@
     <string name="hint_confirm_password">Confirmar Senha</string>
     <string name="img_logo_desc">Ícone de coração na cor vermelha com fina linha de pulso branco cortando na vertical"</string>
     <string name="img_btn_emergency_desc">"Botão de Emergência"</string>
+    <string name="img_logo2_desc">Ícone de cruz branco em fundo vermelho</string>
+    <string name="img_manobra_desc_TEMP">Imagem temporária de orientação da manobra Heimlich</string>
+    <string name="img_menu">Ícone menu com três riscos na horizontal</string>
+    <string name="acionamento_status_title">SOCORRO ACIONADO!</string>
+    <string name="acionamento_status_detalhes">Ajuda a caminho. Inicie a manobra agora:</string>
+    <string name="acionamento_manobra_desc">1. Posicione-se atrás da criança...\n2. Feche a mão e pressione...</string>
     <string name="label_personal_info">Informações Pessoais</string>
     <string name="label_heimlich">Manobras de desengasgo</string>
 </resources>
