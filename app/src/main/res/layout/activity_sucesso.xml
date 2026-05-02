@@ -16,7 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/acionamento_status_title"
-            android:textColor="@color/primary_red"
             android:textAlignment="center"
             app:layout_constraintTop_toTopOf="parent" />
 
