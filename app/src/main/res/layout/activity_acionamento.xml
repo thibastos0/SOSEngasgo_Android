@@ -92,8 +92,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
-                android:text="@string/emergency_title"
-                android:textColor="@color/primary_red" />
+                android:text="@string/emergency_title" />
 
             <TextView
                 android:id="@+id/txt_emergency_warning"
