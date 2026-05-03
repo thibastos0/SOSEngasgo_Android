@@ -11,11 +11,16 @@ import android.widget.ImageView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 // teste commit (gustavo)
 
 public class MainActivity extends AppCompatActivity {
 
     private Button btn_login,btn_signup;
+    FirebaseAuth usuario = FirebaseAuth.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +69,21 @@ public class MainActivity extends AppCompatActivity {
 
             new android.os.Handler().postDelayed(() -> imgLogo.startAnimation(anim), 650);
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser logged_user = usuario.getCurrentUser();
+
+        if(logged_user != null) {
+            navegaTelaAcionamento();
+        }
+    }
+
+    private void navegaTelaAcionamento(){
+        Intent telaAcionamento = new Intent(MainActivity.this, AcionamentoActivity.class);
+        startActivity(telaAcionamento);
     }
 
 }

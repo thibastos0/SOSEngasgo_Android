@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "609861882810",
+    "project_id": "sosengasgo-6196e",
+    "storage_bucket": "sosengasgo-6196e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:609861882810:android:28be52f98afc853a530383",
+        "android_client_info": {
+          "package_name": "com.example.sosengasgo_android"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtvtzTHtYyByNroqSJRjusG-pm36DBP-k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

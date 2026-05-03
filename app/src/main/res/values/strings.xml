@@ -9,6 +9,8 @@
     <string name="btn_cancel">Cancelar</string>
     <string name="btn_close">Encerrar</string>
     <string name="btn_acionar">ACIONAR</string>
+    <string name="btn_perfil">Meu Perfil</string>
+    <string name="btn_logoff">Sair</string>
     <string name="btn_finalizar">Socorro Chegou / Encerrar</string>
     <string name="emergency_title">Emergência</string>
     <string name="emergency_action">ACIONAR</string>
