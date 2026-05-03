@@ -1,6 +1,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -32,7 +33,7 @@
     <EditText
         android:id="@+id/login_user"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginTop="48dp"
         android:hint="Usuário (E-mail)"
         app:layout_constraintTop_toBottomOf="@id/img_logo_login"
@@ -42,13 +43,14 @@
     <EditText
         android:id="@+id/login_pass"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginTop="16dp"
         android:hint="@string/hint_password"
         android:inputType="textPassword"
         app:layout_constraintTop_toBottomOf="@id/login_user"
         app:layout_constraintStart_toStartOf="@id/guideStart"
         app:layout_constraintEnd_toEndOf="@id/guideEnd" />
+
 
     <Button
         android:id="@+id/btn_entrar"
@@ -60,5 +62,18 @@
         app:layout_constraintTop_toBottomOf="@id/login_pass"
         app:layout_constraintStart_toStartOf="@id/guideStart"
         app:layout_constraintEnd_toEndOf="@id/guideEnd" />
+
+    <ProgressBar
+        android:id="@+id/progressBar_login"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:visibility="invisible"
+        android:indeterminateTint="@color/primary_red"
+        app:layout_constraintTop_toBottomOf="@id/btn_entrar"
+        app:layout_constraintStart_toStartOf="@id/guideStart"
+        app:layout_constraintEnd_toEndOf="@id/guideEnd" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

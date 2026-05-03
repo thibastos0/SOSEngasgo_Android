@@ -38,7 +38,7 @@ public class CadastroActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_cadastro);
 
-        startElements();
+        startComponents();
 
         btn_cadastrar.setOnClickListener(view -> {
             String nome = edt_nome.getText().toString();
@@ -118,7 +118,7 @@ public class CadastroActivity extends AppCompatActivity {
         users.child(uid).setValue(user);
 
     }
-    private void startElements() {
+    private void startComponents() {
         edt_nome = findViewById(R.id.edt_nome);
         edt_email = findViewById(R.id.edt_email);
         edt_senha = findViewById(R.id.edt_senha);

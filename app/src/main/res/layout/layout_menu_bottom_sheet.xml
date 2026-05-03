@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@drawable/bg_bottom_sheet">
+
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:background="#D1D1D1" />
+
+    <TextView
+        android:id="@+id/menu_perfil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="@string/btn_perfil"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:gravity="center_vertical"
+        app:drawableStartCompat="@drawable/outline_account_circle_24"
+        android:drawablePadding="16dp"
+        android:background="?attr/selectableItemBackground" />
+
+    <TextView
+        android:id="@+id/menu_sair"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="@string/btn_logoff"
+        android:textSize="18sp"
+        android:textColor="@color/primary_red"
+        android:gravity="center_vertical"
+        app:drawableStartCompat="@android:drawable/ic_lock_power_off"
+        app:drawableTint="@color/primary_red"
+        android:drawablePadding="16dp"
+        android:background="?attr/selectableItemBackground" />
+
+</LinearLayout>
