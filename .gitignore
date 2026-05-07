@@ -23,3 +23,6 @@ local.properties
 # Arquivos de análise nativa (C++)
 .externalNativeBuild
 .cxx/
+
+# Configurações de segurança
+google-services.json
