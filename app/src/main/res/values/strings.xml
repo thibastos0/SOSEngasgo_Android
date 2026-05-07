@@ -4,6 +4,7 @@
     <string name="welcome_title">Bem-vindo ao SOS Engasgo</string>
     <string name="welcome_subtitle">Um sistema pensado para emergências infantis — rápido, simples e seguro.</string>
     <string name="btn_login">Entrar</string>
+    <string name="txt_cadastro">Ainda não tem conta? Clique aqui</string>
     <string name="btn_signup">Criar cadastro</string>
     <string name="btn_save">Salvar</string>
     <string name="btn_cancel">Cancelar</string>

@@ -1,5 +1,6 @@
 package com.example.sosengasgo_android;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -79,6 +80,7 @@ public class CadastroActivity extends AppCompatActivity {
                                         Log.e("DEBUG", "Tentativa de gravar dados sem usuário logado!");
                                     }
                                     Toast.makeText(CadastroActivity.this, "Sucesso ao cadastrar!", Toast.LENGTH_SHORT).show();
+                                    navegaTelaMain();
                                 } else {
                                     String erro;
                                     try {
@@ -124,6 +126,12 @@ public class CadastroActivity extends AppCompatActivity {
         edt_senha = findViewById(R.id.edt_senha);
         etd_confirma_senha = findViewById(R.id.edt_confirma_senha);
         btn_cadastrar = findViewById(R.id.btn_cadastrar);
+    }
+
+    private void navegaTelaMain(){
+        Intent telaMain = new Intent(CadastroActivity.this, LoginActivity.class);
+        startActivity(telaMain);
+        usuario.signOut();
     }
 
 }

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -26,7 +27,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
-    Button btn_entrar;
+    private Button btn_entrar;
+    private TextView txt_cadastro_spannable;
     private EditText login_user, login_pass;
     private ProgressBar progressBar_login;
     private FirebaseAuth usuario = FirebaseAuth.getInstance();
@@ -40,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         startComponents();
 
         btn_entrar.setOnClickListener(v -> login(v));
+        txt_cadastro_spannable.setOnClickListener(view -> navegaTelaCadastro());
 
     }
 
@@ -47,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         login_user = findViewById(R.id.login_user);
         login_pass = findViewById(R.id.login_pass);
         btn_entrar = findViewById(R.id.btn_entrar);
+        txt_cadastro_spannable = findViewById(R.id.txt_cadastro_spannable);
         progressBar_login = findViewById(R.id.progressBar_login);
     }
 
@@ -109,6 +113,11 @@ public class LoginActivity extends AppCompatActivity {
     private void navegaTelaAcionamento(){
         Intent telaAcionamento = new Intent(LoginActivity.this, AcionamentoActivity.class);
         startActivity(telaAcionamento);
+    }
+
+    private void navegaTelaCadastro(){
+        Intent telaCadastro = new Intent(LoginActivity.this, CadastroActivity.class);
+        startActivity(telaCadastro);
     }
 
 }
