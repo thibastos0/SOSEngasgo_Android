@@ -3,8 +3,10 @@ package com.example.sosengasgo_android;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -29,8 +31,12 @@ import com.google.firebase.database.ValueEventListener;
 public class CadastroActivity extends AppCompatActivity {
 
     private EditText edt_nome, edt_email, edt_senha, etd_confirma_senha;
-    private Button btn_cadastrar;
-    private FirebaseAuth usuario = FirebaseAuth.getInstance();
+    private TextView txt_reg_title;
+    private Button btn_cadastrar, btn_cancelar;
+    private boolean loginComGoogle = false;
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private FirebaseUser firebaseUser;
+    private String uid;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference reference = database.getReference();
     @Override
@@ -41,41 +47,90 @@ public class CadastroActivity extends AppCompatActivity {
 
         startComponents();
 
+        firebaseUser = mAuth.getCurrentUser();
+        if (firebaseUser != null) {
+            uid = firebaseUser.getUid();
+            loginComGoogle = firebaseUser.getProviderData().stream()
+                    .anyMatch(info -> info.getProviderId().equals("google.com"));
+        }
+
+        boolean isNewUser = getIntent().getBooleanExtra("isNewUser", false);
+        //getIntent().removeExtra("isNewUser");
+
+        if (isNewUser && loginComGoogle) {
+            btn_cancelar.setVisibility(View.GONE);
+            edt_senha.setVisibility(View.GONE);
+            etd_confirma_senha.setVisibility(View.GONE);
+            btn_cadastrar.setText("Cadastrar com Google");
+            String nome = getIntent().getStringExtra("nome");
+            String email = getIntent().getStringExtra("email");
+            edt_nome.setText(nome);
+            edt_email.setText(email);
+        }
+
+        if (!isNewUser) {
+            LoadData(firebaseUser);
+            edt_senha.setVisibility(View.GONE);
+            etd_confirma_senha.setVisibility(View.GONE);
+            txt_reg_title.setText("Dados do Usuário");
+            btn_cadastrar.setText("Atualizar");
+        }
+
+        btn_cancelar.setOnClickListener(view -> voltaTelaMain());
+
         btn_cadastrar.setOnClickListener(view -> {
             String nome = edt_nome.getText().toString();
             String email = edt_email.getText().toString();
-            String senha = edt_senha.getText().toString();
-            String confirma_senha = etd_confirma_senha.getText().toString();
 
-            if (nome.isEmpty() || email.isEmpty() || senha.isEmpty() || confirma_senha.isEmpty()) {
+            if (isNewUser && !loginComGoogle) {
+
+                String senha = edt_senha.getText().toString();
+                String confirma_senha = etd_confirma_senha.getText().toString();
+
+                if (nome.isEmpty() || email.isEmpty() || senha.isEmpty() || confirma_senha.isEmpty()) {
+                    Toast.makeText(CadastroActivity.this, "Necessário preencher todos os campos!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (!senha.equals(confirma_senha)) {
+                    Toast.makeText(CadastroActivity.this, "Senhas diferentes!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                cadastrarUsuario(nome, email, senha);
+                return;
+            }
+
+            if (nome.isEmpty() || email.isEmpty()) {
                 Toast.makeText(CadastroActivity.this, "Necessário preencher todos os campos!", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            if(!senha.equals(confirma_senha)){
-                Toast.makeText(CadastroActivity.this, "Senhas diferentes!", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-
-            cadastrarUsuario(nome, email, senha);
-
-
+            firebaseUser = mAuth.getCurrentUser();
+            if (firebaseUser == null) { return; }
+            salvarDadosUsuario(firebaseUser.getUid(), nome, email);
         });
 
     }
 
+    private void startComponents() {
+        edt_nome = findViewById(R.id.edt_nome);
+        edt_email = findViewById(R.id.edt_email);
+        edt_senha = findViewById(R.id.edt_senha);
+        txt_reg_title = findViewById(R.id.txt_reg_title);
+        etd_confirma_senha = findViewById(R.id.edt_confirma_senha);
+        btn_cadastrar = findViewById(R.id.btn_cadastrar);
+        btn_cancelar = findViewById(R.id.btn_cancelar);
+    }
+
     private void cadastrarUsuario(String nome, String email, String senha){
 
-        usuario.createUserWithEmailAndPassword(email, senha)
+        mAuth.createUserWithEmailAndPassword(email, senha)
                 .addOnCompleteListener(CadastroActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if( task.isSuccessful() ) {
-                                    FirebaseUser firebaseUser = usuario.getCurrentUser();
+                                    firebaseUser = mAuth.getCurrentUser();
                                     if (firebaseUser != null) {
-                                        String uid = firebaseUser.getUid();
-                                        salvarDadosUsuario(uid, nome, email);
+                                        salvarDadosUsuario(firebaseUser.getUid(), nome, email);
                                     } else {
                                         Log.e("DEBUG", "Tentativa de gravar dados sem usuário logado!");
                                     }
@@ -102,36 +157,71 @@ public class CadastroActivity extends AppCompatActivity {
 
     private void salvarDadosUsuario(String uid, String nome, String email){
         DatabaseReference users = reference.child("users");
-        users.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.d("FIREBASE", dataSnapshot.getValue().toString() );
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.w("FIREBASE","Falha ao ler os valores.", databaseError.toException());
+        User userData = new User();
+        userData.setNome(nome);
+        userData.setEmail(email);
+
+        users.child(uid).setValue(userData).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Toast.makeText(this, "Sucesso ao gravar/atualizar dados!", Toast.LENGTH_SHORT).show();
+                voltaTelaMain();
+            } else {
+                Exception e = task.getException();
+                Toast.makeText(this, "Erro ao gravar/atualizar dados! " + e.toString(), Toast.LENGTH_SHORT).show();
             }
         });
-        User user = new User();
-        user.setNome(nome);
-        user.setEmail(email);
-
-        users.child(uid).setValue(user);
 
     }
-    private void startComponents() {
-        edt_nome = findViewById(R.id.edt_nome);
-        edt_email = findViewById(R.id.edt_email);
-        edt_senha = findViewById(R.id.edt_senha);
-        etd_confirma_senha = findViewById(R.id.edt_confirma_senha);
-        btn_cadastrar = findViewById(R.id.btn_cadastrar);
+
+    private void LoadData(FirebaseUser firebaseUser) {
+
+        DatabaseReference user = reference.child("users");
+        user.child(firebaseUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+
+                    User userData = task.getResult().getValue(User.class);
+
+                    if (userData != null) {
+                        edt_nome.setText(userData.getNome());
+                        edt_email.setText(userData.getEmail());
+                    }
+
+                    else {
+                        Log.e("firebase", "Erro ao ler dados!", task.getException());
+                        return;
+                    }
+
+                }
+            }
+        });
     }
 
     private void navegaTelaMain(){
         Intent telaMain = new Intent(CadastroActivity.this, LoginActivity.class);
         startActivity(telaMain);
-        usuario.signOut();
+        mAuth.signOut();
     }
+
+    private void voltaTelaMain(){
+        Intent telaMain = new Intent(this, MainActivity.class);
+        // Limpa o empilhamento de telas para não poluir o fluxo do app
+        telaMain.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(telaMain);
+        finish();
+    }
+
+    protected void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            reload();
+        }
+    }
+
+    private void reload() {   }
 
 }

@@ -75,18 +75,35 @@
         app:layout_constraintStart_toStartOf="@id/guideStart"
         app:layout_constraintEnd_toEndOf="@id/guideEnd" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_GoogleLogin"
+        style="@style/btnOutlinedPattern"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/btn_google_login"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        app:icon="@drawable/ic_google"
+        app:iconGravity="textStart"
+        app:iconPadding="12dp"
+        app:iconTint="@null"
+        app:layout_constraintTop_toBottomOf="@id/progressBar_login"
+        app:layout_constraintStart_toStartOf="@id/guideStart"
+        app:layout_constraintEnd_toEndOf="@id/guideEnd" />
+
     <TextView
         android:id="@+id/txt_cadastro_spannable"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
         android:text="@string/txt_cadastro"
         android:clickable="true"
         android:focusable="true"
-        app:layout_constraintTop_toBottomOf="@id/progressBar_login"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-
+        android:minHeight="48dp"
+        app:layout_constraintTop_toBottomOf="@id/btn_GoogleLogin"
+        app:layout_constraintStart_toStartOf="@id/guideStart"
+        app:layout_constraintEnd_toEndOf="@id/guideEnd" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
