@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -13,12 +12,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class AcionamentoActivity extends AppCompatActivity {
 
     ImageButton btn_acionar;
     ImageView btn_menu;
-    FirebaseAuth usuario = FirebaseAuth.getInstance();
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +42,8 @@ public class AcionamentoActivity extends AppCompatActivity {
     }
 
     private void navegaTelaPerfil(){
-        //Intent telaPerfil = new Intent(AcionamentoActivity.this, PerfilActivity.class);
-        //startActivity(telaPerfil);
+        Intent telaPerfil = new Intent(AcionamentoActivity.this, CadastroActivity.class);
+        startActivity(telaPerfil);
     }
 
     private  void navegaTelaMain(){
@@ -59,12 +59,11 @@ public class AcionamentoActivity extends AppCompatActivity {
         // Configurar cliques
         view.findViewById(R.id.menu_perfil).setOnClickListener(view1 -> {
             navegaTelaPerfil();
-            Toast.makeText(this, "Perfil clicado", Toast.LENGTH_SHORT).show();
             bottomSheetDialog.dismiss();
         });
 
         view.findViewById(R.id.menu_sair).setOnClickListener(view1 -> {
-            usuario.signOut();
+            mAuth.signOut();
             bottomSheetDialog.dismiss();
             navegaTelaMain();
             finish();
@@ -74,5 +73,16 @@ public class AcionamentoActivity extends AppCompatActivity {
         bottomSheetDialog.show();
     }
 
+    private void reload() { }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            reload();
+        }
+    }
 
 }

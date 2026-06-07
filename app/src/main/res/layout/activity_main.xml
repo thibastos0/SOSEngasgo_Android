@@ -81,28 +81,42 @@
 
     <Button
         android:id="@+id/btn_login"
+        style="@style/btnPattern"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/btn_login"
         app:layout_constraintBottom_toTopOf="@id/btn_signup"
-        app:layout_constraintEnd_toEndOf="@+id/guideEnd"
-        app:layout_constraintStart_toStartOf="@+id/guideStart"
+        app:layout_constraintEnd_toEndOf="@id/guideEnd"
+        app:layout_constraintStart_toStartOf="@id/guideStart"
         app:layout_constraintTop_toBottomOf="@id/guidelineh2" />
 
     <Button
         android:id="@+id/btn_signup"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        style="@style/btnOutlinedPattern"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/white"
-        android:shadowRadius="0"
         android:text="@string/btn_signup"
-        android:textColor="@color/primary_red"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/guidelineh3"
-        app:layout_constraintEnd_toEndOf="@+id/guideEnd"
-        app:layout_constraintStart_toStartOf="@+id/guideStart"
-        app:layout_constraintTop_toBottomOf="@+id/btn_login" />
+        app:layout_constraintBottom_toTopOf="@+id/guidelineh3"
+        app:layout_constraintEnd_toEndOf="@id/guideEnd"
+        app:layout_constraintStart_toStartOf="@id/guideStart"
+        app:layout_constraintTop_toBottomOf="@id/btn_login" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_GoogleLogin"
+        style="@style/btnOutlinedPattern"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/btn_google_login"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        app:icon="@drawable/ic_google"
+        app:iconGravity="textStart"
+        app:iconPadding="12dp"
+        app:iconTint="@null"
+        app:layout_constraintTop_toBottomOf="@id/guidelineh3"
+        app:layout_constraintStart_toStartOf="@id/guideStart"
+        app:layout_constraintEnd_toEndOf="@id/guideEnd" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
