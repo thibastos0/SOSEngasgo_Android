@@ -14,6 +14,8 @@
     <string name="btn_perfil">Meu Perfil</string>
     <string name="btn_logoff">Sair</string>
     <string name="btn_finalizar">Socorro Chegou / Encerrar</string>
+    <string name="btn_confirm_socorro">Sim, Chamar Socorro</string>
+    <string name="btn_dismiss_socorro">Não, Cancelar Acionamento</string>
     <string name="emergency_title">Emergência</string>
     <string name="emergency_action">ACIONAR</string>
     <string name="emergency_warning">Em caso de engasgo, pressione o botão abaixo imediatamente</string>
@@ -28,6 +30,8 @@
     <string name="img_logo2_desc">Ícone de cruz branco em fundo vermelho</string>
     <string name="img_manobra_desc_TEMP">Imagem temporária de orientação da manobra Heimlich</string>
     <string name="img_menu">Ícone menu com três riscos na horizontal</string>
+    <string name="title_confirm_socorro">Confirmar Localização</string>
+    <string name="desc_confirm_socorro">O socorro será enviado para o endereço detectado acima. Confirme para iniciar as instruções de primeiros socorros.</string>
     <string name="acionamento_status_title">SOCORRO ACIONADO!</string>
     <string name="acionamento_status_detalhes">Ajuda a caminho. Inicie a manobra agora:</string>
     <string name="acionamento_manobra_desc">1. Posicione-se atrás da criança...\n2. Feche a mão e pressione...</string>

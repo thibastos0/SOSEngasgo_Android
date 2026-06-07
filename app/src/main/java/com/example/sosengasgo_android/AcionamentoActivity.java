@@ -3,6 +3,7 @@ package com.example.sosengasgo_android;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -16,9 +17,11 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class AcionamentoActivity extends AppCompatActivity {
 
-    ImageButton btn_acionar;
-    ImageView btn_menu;
-    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private Button btn_Confirmar, btn_Cancelar;
+    private ImageButton btn_acionar;
+    private ImageView btn_menu;
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,8 +30,9 @@ public class AcionamentoActivity extends AppCompatActivity {
 
         startComponents();
 
-        btn_menu.setOnClickListener(view -> abrirMenu(view));
-        btn_acionar.setOnClickListener(v -> navegaTelaSucesso());
+        btn_menu.setOnClickListener(view -> abrirMenu());
+
+        btn_acionar.setOnClickListener(view -> confirmarSocorro());
 
     }
 
@@ -52,17 +56,38 @@ public class AcionamentoActivity extends AppCompatActivity {
         startActivity(telaMain);
     }
 
-    private void abrirMenu(View v) {
+    private void confirmarSocorro(){
+
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(AcionamentoActivity.this);
+        View sheetView = getLayoutInflater().inflate(R.layout.layout_confirmacao_socorro, null);
+        bottomSheetDialog.setContentView(sheetView);
+
+        btn_Confirmar = sheetView.findViewById(R.id.btn_confirmar_socorro);
+        btn_Cancelar = sheetView.findViewById(R.id.btn_cancelar_socorro);
+
+        // Ações do botão confirmar dentro do pop-up
+        btn_Confirmar.setOnClickListener(v -> {
+            bottomSheetDialog.dismiss();
+            navegaTelaSucesso();
+        });
+
+        // Ações do botão cancelar dentro do pop-up
+        btn_Cancelar.setOnClickListener(v -> bottomSheetDialog.dismiss());
+
+        bottomSheetDialog.show();
+    }
+
+    private void abrirMenu() {
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
         View view = getLayoutInflater().inflate(R.layout.layout_menu_bottom_sheet, null);
 
         // Configurar cliques
-        view.findViewById(R.id.menu_perfil).setOnClickListener(view1 -> {
+        view.findViewById(R.id.menu_perfil).setOnClickListener(v -> {
             navegaTelaPerfil();
             bottomSheetDialog.dismiss();
         });
 
-        view.findViewById(R.id.menu_sair).setOnClickListener(view1 -> {
+        view.findViewById(R.id.menu_sair).setOnClickListener(v -> {
             mAuth.signOut();
             bottomSheetDialog.dismiss();
             navegaTelaMain();
