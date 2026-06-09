@@ -1,4 +1,4 @@
-package com.example.sosengasgo_android;
+package com.example.sosengasgo_android.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.sosengasgo_android.R;
 import com.example.sosengasgo_android.model.ButtonActivation;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class HistoricoAdapter extends RecyclerView.Adapter<HistoricoAdapter.Hist
         holder.textViewDate.setText("Data: " + currentActivation.getDate());
         holder.textViewTime.setText("Hora: " + currentActivation.getTime());
         holder.textViewLocation.setText("Local: " + currentActivation.getLocation());
+        holder.textViewStatus.setText("Status: " + currentActivation.getStatus() + "");
     }
 
     @Override
@@ -47,12 +49,15 @@ public class HistoricoAdapter extends RecyclerView.Adapter<HistoricoAdapter.Hist
         private TextView textViewDate;
         private TextView textViewTime;
         private TextView textViewLocation;
+        private TextView textViewStatus;
+
 
         public HistoricoViewHolder(View itemView) {
             super(itemView);
             textViewDate = itemView.findViewById(R.id.text_view_date);
             textViewTime = itemView.findViewById(R.id.text_view_time);
             textViewLocation = itemView.findViewById(R.id.text_view_location);
+            textViewStatus = itemView.findViewById(R.id.text_view_status);
         }
     }
 }

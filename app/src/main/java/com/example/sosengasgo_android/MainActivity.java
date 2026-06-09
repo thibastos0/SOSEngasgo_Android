@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.ContentView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
@@ -19,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button btn_login,btn_signup;
     private MaterialButton btn_GoogleLogin;
-    private FirebaseAuth usuario;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +27,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         try {
-            usuario = FirebaseAuth.getInstance();
+            mAuth = FirebaseAuth.getInstance();
         } catch (Exception e) {
             // Se o Firebase não estiver inicializado (ex: sem google-services.json), 
             // evitamos o crash aqui. Em produção, isso deve ser resolvido com a configuração correta.
-            usuario = null;
+            mAuth = null;
         }
 
         btn_login = findViewById(R.id.btn_login);
@@ -83,8 +82,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (usuario != null) {
-            FirebaseUser logged_user = usuario.getCurrentUser();
+        if (mAuth != null) {
+            FirebaseUser logged_user = mAuth.getCurrentUser();
 
             if (logged_user != null) {
                 navegaTelaAcionamento();

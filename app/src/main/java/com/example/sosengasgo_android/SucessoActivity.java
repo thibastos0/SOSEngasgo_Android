@@ -12,13 +12,19 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.sosengasgo_android.database.AppDatabase;
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.Executors;
 
 public class SucessoActivity extends AppCompatActivity {
 
     private Button btn_finalizar, btn_cancelar_acionamento;
     private TextView txt_instrucao_topo;
+    private AppDatabase db;
+    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,16 +32,29 @@ public class SucessoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sucesso);
 
         startComponents();
+
+        try {
+            mAuth = FirebaseAuth.getInstance();
+        } catch (Exception e) {
+            mAuth = null;
+        }
+
         double latitude = getIntent().getDoubleExtra("latitude", 0);
         double longitude = getIntent().getDoubleExtra("longitude", 0);
         atualizarEnderecoTexto(latitude, longitude);
+        long id = getIntent().getLongExtra("id", 0);
+
+        db = AppDatabase.getDatabase(this);
 
         btn_finalizar.setOnClickListener(v -> {
             String status = "finalizado";
-            atualizarStatusAcionamento(status);
+            encerraAcionamento(id, status);
         });
 
-        btn_cancelar_acionamento.setOnClickListener( v-> cancelaAcionamento());
+        btn_cancelar_acionamento.setOnClickListener( v-> {
+            String status = "cancelado";
+            encerraAcionamento(id, status);
+        });
 
     }
 
@@ -74,17 +93,23 @@ public class SucessoActivity extends AppCompatActivity {
         }
     }
 
-    private void atualizarStatusAcionamento(String status) {
-        //TODO: Atualizar status do histórico Room de acionamento
-        navegaTelaAcionamento();
-        finish();
-    }
+    private void encerraAcionamento(long id, String status) {
 
-    private void cancelaAcionamento(){
-            Toast.makeText(this, "Ação cancelada", Toast.LENGTH_SHORT).show();
-            //TODO: excluir do histórico Room de acionamento
-            navegaTelaAcionamento();
-            finish();
+        String userId = mAuth.getCurrentUser().getUid();
+
+        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                db.buttonActivationDao().updateStatus(id, userId, status);
+            Log.i("DEBUG_Status_Update", "Status atualizado com sucesso: " + status + ".");
+
+                runOnUiThread(() -> {
+                    navegaTelaAcionamento();
+                    finish();
+                });
+            }
+        });
+
     }
 
     private void navegaTelaAcionamento(){
