@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     //firebase
-    id("com.google.gms.google-services")
+    id("com.google.gms.google-services") // Se necessário, comentar para permitir o build sem o arquivo google-services.json
 }
 
 android {
@@ -46,7 +46,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    implementation("com.google.android.material:material:1.x.x")
+    // implementation("com.google.android.material:material:1.x.x") // Removido, já existe libs.material
 
     //firebase
     implementation(platform("com.google.firebase:firebase-bom:34.14.0"))
@@ -64,5 +64,16 @@ dependencies {
     //Geolocalização
     implementation("com.google.android.gms:play-services-location:21.3.0")
     implementation("org.osmdroid:osmdroid-android:6.1.20") //OpenStreetMap
+
+    // Room Database
+    implementation("androidx.room:room-runtime:2.6.1")
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
+
+    // LiveData para observar mudanças
+    implementation("androidx.lifecycle:lifecycle-livedata:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel:2.7.0")
+
+    // RecyclerView para exibir lista
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
 
 }

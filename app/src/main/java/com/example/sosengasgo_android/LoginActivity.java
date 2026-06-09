@@ -48,13 +48,19 @@ public class LoginActivity extends AppCompatActivity {
     private EditText login_user, login_pass;
     private ProgressBar progressBar_login;
     private Boolean googleChoosed = false;
-    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
+
+        try {
+            mAuth = FirebaseAuth.getInstance();
+        } catch (Exception e) {
+            mAuth = null;
+        }
 
         startComponents();
 
@@ -125,6 +131,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void firebaseAuthWithGoogle(String idToken) {
+        if (mAuth == null) {
+            Toast.makeText(this, "Erro: Firebase não inicializado.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
@@ -153,6 +163,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login(View v){
+        if (mAuth == null) {
+            Toast.makeText(this, "Erro: Firebase não inicializado.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         String email_user = login_user.getText().toString();
         String pass_user = login_pass.getText().toString();
 
@@ -200,11 +214,13 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        FirebaseUser logged_user = mAuth.getCurrentUser();
+        if (mAuth != null) {
+            FirebaseUser logged_user = mAuth.getCurrentUser();
 
-        if(logged_user != null) {
-            progressBar_login.setVisibility(View.VISIBLE);
-            navegaTelaAcionamento();
+            if (logged_user != null) {
+                progressBar_login.setVisibility(View.VISIBLE);
+                navegaTelaAcionamento();
+            }
         }
 
         if (getIntent().getBooleanExtra("googleChoosed", false)) {

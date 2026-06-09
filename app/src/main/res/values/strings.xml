@@ -39,4 +39,7 @@
     <string name="acionamento_manobra_desc">1. Posicione-se atrás da criança...\n2. Feche a mão e pressione...</string>
     <string name="label_personal_info">Informações Pessoais</string>
     <string name="label_heimlich">Manobras de desengasgo</string>
+
+    <!-- Placeholder para compilação sem o plugin do Google Services. Substitua pelo arquivo real. 
+    <string name="default_web_client_id">dummy-client-id</string>-->
 </resources>

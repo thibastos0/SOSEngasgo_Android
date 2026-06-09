@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.sosengasgo_android.model.ButtonActivation;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.Priority;
@@ -37,6 +38,8 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -49,12 +52,18 @@ public class AcionamentoActivity extends AppCompatActivity {
     private TextView txt_confirm_warning;
     private FusedLocationProviderClient fusedLocationClient;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
+
+        try {
+            mAuth = FirebaseAuth.getInstance();
+        } catch (Exception e) {
+            mAuth = null;
+        }
 
         // API Key para OpenStreetMap
         Configuration.getInstance().setUserAgentValue(getPackageName());
@@ -111,7 +120,9 @@ public class AcionamentoActivity extends AppCompatActivity {
         });
 
         sheetView.findViewById(R.id.menu_sair).setOnClickListener(v -> {
-            mAuth.signOut();
+            if (mAuth != null) {
+                mAuth.signOut();
+            }
             bottomSheetDialog.dismiss();
             navegaTelaMain();
             finish();
@@ -222,6 +233,7 @@ public class AcionamentoActivity extends AppCompatActivity {
         // Ações do botão confirmar dentro do pop-up
         btn_Confirmar.setOnClickListener(v -> {
             bottomSheetDialog.dismiss();
+            registrarAtivacao(localSelecionado[0].getLatitude(), localSelecionado[0].getLongitude());
             navegaTelaSucesso(localSelecionado[0].getLatitude(), localSelecionado[0].getLongitude());
             finish();
         });
@@ -302,10 +314,32 @@ public class AcionamentoActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            reload();
+        if (mAuth != null) {
+            FirebaseUser currentUser = mAuth.getCurrentUser();
+            if (currentUser != null) {
+                reload();
+            }
         }
+    }
+
+    private void registrarAtivacao(double latitude, double longitude) {
+        // Obter data e hora atuais
+        String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+        String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+
+        // Obter localização (você já tem o código de geolocalização)
+        String currentLocation = "Lat: " + latitude + ", Lng: " + longitude;
+
+        final ButtonActivation activation = new ButtonActivation(currentDate, currentTime, currentLocation);
+
+        // Inserir no banco de dados em thread separada
+        AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
+        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                db.buttonActivationDao().insert(activation);
+            }
+        });
     }
 
 }
