@@ -12,8 +12,10 @@
     <string name="btn_close">Encerrar</string>
     <string name="btn_acionar">ACIONAR</string>
     <string name="btn_perfil">Meu Perfil</string>
+    <string name="btn_historico">Histórico</string>
     <string name="btn_logoff">Sair</string>
     <string name="btn_finalizar">Socorro Chegou / Encerrar</string>
+    <string name="btn_cancelar_acionamento">Cancelar Acionamento</string>
     <string name="btn_confirm_socorro">Sim, Chamar Socorro</string>
     <string name="btn_dismiss_socorro">Não, Cancelar Acionamento</string>
     <string name="emergency_title">Emergência</string>

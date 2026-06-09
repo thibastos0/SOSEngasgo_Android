@@ -64,5 +64,16 @@
             android:text="@string/btn_finalizar"
             app:layout_constraintTop_toBottomOf="@id/txt_passo_a_passo" />
 
+        <Button
+            android:id="@+id/btn_cancelar_acionamento"
+            style="@style/btnTextPattern"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/btn_cancelar_acionamento"
+            app:layout_constraintTop_toBottomOf="@id/btn_finalizar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

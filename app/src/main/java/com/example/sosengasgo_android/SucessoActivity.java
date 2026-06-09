@@ -17,7 +17,7 @@ import java.util.Locale;
 
 public class SucessoActivity extends AppCompatActivity {
 
-    private Button btn_finalizar;
+    private Button btn_finalizar, btn_cancelar_acionamento;
     private TextView txt_instrucao_topo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +30,18 @@ public class SucessoActivity extends AppCompatActivity {
         double longitude = getIntent().getDoubleExtra("longitude", 0);
         atualizarEnderecoTexto(latitude, longitude);
 
-        btn_finalizar.setOnClickListener(v -> navegaTelaAcionamento());
+        btn_finalizar.setOnClickListener(v -> {
+            String status = "finalizado";
+            atualizarStatusAcionamento(status);
+        });
+
+        btn_cancelar_acionamento.setOnClickListener( v-> cancelaAcionamento());
+
     }
 
     private void startComponents(){
         btn_finalizar = findViewById(R.id.btn_finalizar);
+        btn_cancelar_acionamento = findViewById(R.id.btn_cancelar_acionamento);
         txt_instrucao_topo = findViewById(R.id.txt_instrucao_topo);
     }
 
@@ -65,6 +72,19 @@ public class SucessoActivity extends AppCompatActivity {
             // Fallback caso o aparelho esteja sem internet ou o serviço do Google de Geocode falhe temporariamente
             txt_instrucao_topo.setText("Socorro enviado para as coordenadas: " + latitude + ", " + longitude + "\n\nInicie a manobra agora.");
         }
+    }
+
+    private void atualizarStatusAcionamento(String status) {
+        //TODO: Atualizar status do histórico Room de acionamento
+        navegaTelaAcionamento();
+        finish();
+    }
+
+    private void cancelaAcionamento(){
+            Toast.makeText(this, "Ação cancelada", Toast.LENGTH_SHORT).show();
+            //TODO: excluir do histórico Room de acionamento
+            navegaTelaAcionamento();
+            finish();
     }
 
     private void navegaTelaAcionamento(){

@@ -94,6 +94,12 @@ public class AcionamentoActivity extends AppCompatActivity {
         startActivity(telaMain);
     }
 
+    private void navegaTelaHistorio(){
+        //TODO: Navegar para tela de histórico
+        //Intent telaHistoria = new Intent(AcionamentoActivity.this, HistoricoActivity.class);
+        //startActivity(telaHistoria);
+    }
+
     private void abrirMenu() {
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
         View sheetView = getLayoutInflater().inflate(R.layout.layout_menu_bottom_sheet, null);
@@ -110,6 +116,12 @@ public class AcionamentoActivity extends AppCompatActivity {
             navegaTelaMain();
             finish();
         });
+
+        sheetView.findViewById(R.id.menu_historico).setOnClickListener(v -> {
+            navegaTelaHistorio();
+            bottomSheetDialog.dismiss();
+        });
+
 
         bottomSheetDialog.setContentView(sheetView);
         bottomSheetDialog.show();
