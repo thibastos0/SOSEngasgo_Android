@@ -34,24 +34,37 @@ public class CadastroActivity extends AppCompatActivity {
     private TextView txt_reg_title;
     private Button btn_cadastrar, btn_cancelar;
     private boolean loginComGoogle = false;
-    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private FirebaseAuth mAuth;
     private FirebaseUser firebaseUser;
     private String uid;
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference reference = database.getReference();
+    private FirebaseDatabase database;
+    private DatabaseReference reference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_cadastro);
 
+        try {
+            mAuth = FirebaseAuth.getInstance();
+            database = FirebaseDatabase.getInstance();
+            reference = database.getReference();
+        } catch (Exception e) {
+            mAuth = null;
+            database = null;
+            reference = null;
+        }
+
         startComponents();
 
-        firebaseUser = mAuth.getCurrentUser();
-        if (firebaseUser != null) {
-            uid = firebaseUser.getUid();
-            loginComGoogle = firebaseUser.getProviderData().stream()
-                    .anyMatch(info -> info.getProviderId().equals("google.com"));
+        if (mAuth != null) {
+            firebaseUser = mAuth.getCurrentUser();
+            if (firebaseUser != null) {
+                uid = firebaseUser.getUid();
+                loginComGoogle = firebaseUser.getProviderData().stream()
+                        .anyMatch(info -> info.getProviderId().equals("google.com"));
+            }
         }
 
         boolean isNewUser = getIntent().getBooleanExtra("isNewUser", false);
@@ -104,6 +117,11 @@ public class CadastroActivity extends AppCompatActivity {
                 return;
             }
 
+            if (mAuth == null) {
+                Toast.makeText(this, "Erro: Firebase não inicializado.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             firebaseUser = mAuth.getCurrentUser();
             if (firebaseUser == null) { return; }
             salvarDadosUsuario(firebaseUser.getUid(), nome, email);
@@ -122,6 +140,10 @@ public class CadastroActivity extends AppCompatActivity {
     }
 
     private void cadastrarUsuario(String nome, String email, String senha){
+        if (mAuth == null) {
+            Toast.makeText(this, "Erro: Firebase não inicializado.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         mAuth.createUserWithEmailAndPassword(email, senha)
                 .addOnCompleteListener(CadastroActivity.this, new OnCompleteListener<AuthResult>() {
@@ -156,6 +178,10 @@ public class CadastroActivity extends AppCompatActivity {
     }
 
     private void salvarDadosUsuario(String uid, String nome, String email){
+        if (reference == null) {
+            Toast.makeText(this, "Erro: Firebase Realtime Database não inicializado.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         DatabaseReference users = reference.child("users");
 
         User userData = new User();
@@ -175,7 +201,9 @@ public class CadastroActivity extends AppCompatActivity {
     }
 
     private void LoadData(FirebaseUser firebaseUser) {
-
+        if (reference == null || firebaseUser == null) {
+            return;
+        }
         DatabaseReference user = reference.child("users");
         user.child(firebaseUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -202,7 +230,9 @@ public class CadastroActivity extends AppCompatActivity {
     private void navegaTelaMain(){
         Intent telaMain = new Intent(CadastroActivity.this, LoginActivity.class);
         startActivity(telaMain);
-        mAuth.signOut();
+        if (mAuth != null) {
+            mAuth.signOut();
+        }
     }
 
     private void voltaTelaMain(){
@@ -216,9 +246,11 @@ public class CadastroActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            reload();
+        if (mAuth != null) {
+            FirebaseUser currentUser = mAuth.getCurrentUser();
+            if (currentUser != null) {
+                reload();
+            }
         }
     }
 

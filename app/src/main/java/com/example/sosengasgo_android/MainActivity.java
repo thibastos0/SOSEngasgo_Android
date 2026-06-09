@@ -19,13 +19,21 @@ public class MainActivity extends AppCompatActivity {
 
     private Button btn_login,btn_signup;
     private MaterialButton btn_GoogleLogin;
-    FirebaseAuth usuario = FirebaseAuth.getInstance();
+    private FirebaseAuth usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
+        try {
+            usuario = FirebaseAuth.getInstance();
+        } catch (Exception e) {
+            // Se o Firebase não estiver inicializado (ex: sem google-services.json), 
+            // evitamos o crash aqui. Em produção, isso deve ser resolvido com a configuração correta.
+            usuario = null;
+        }
 
         btn_login = findViewById(R.id.btn_login);
         btn_signup = findViewById(R.id.btn_signup);
@@ -75,10 +83,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        FirebaseUser logged_user = usuario.getCurrentUser();
+        if (usuario != null) {
+            FirebaseUser logged_user = usuario.getCurrentUser();
 
-        if(logged_user != null) {
-            navegaTelaAcionamento();
+            if (logged_user != null) {
+                navegaTelaAcionamento();
+            }
         }
     }
 
