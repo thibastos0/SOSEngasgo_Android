@@ -27,8 +27,8 @@ public abstract class AppDatabase extends RoomDatabase {
             synchronized (AppDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                                    AppDatabase.class, "button_history_database")
-                            .build();
+                                    AppDatabase.class, "button_history_database"
+                            ).fallbackToDestructiveMigration().build();
                 }
             }
         }

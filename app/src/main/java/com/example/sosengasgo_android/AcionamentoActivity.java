@@ -51,9 +51,11 @@ public class AcionamentoActivity extends AppCompatActivity {
     private ImageView btn_menu;
     private FrameLayout map_Container;
     private TextView txt_confirm_warning;
+    private  final ButtonActivation activation = new ButtonActivation();
     private FusedLocationProviderClient fusedLocationClient;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private FirebaseAuth mAuth;
+    private AppDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,8 @@ public class AcionamentoActivity extends AppCompatActivity {
         } catch (Exception e) {
             mAuth = null;
         }
+
+        db = AppDatabase.getDatabase(this);
 
         // API Key para OpenStreetMap
         Configuration.getInstance().setUserAgentValue(getPackageName());
@@ -86,10 +90,11 @@ public class AcionamentoActivity extends AppCompatActivity {
         btn_acionar = findViewById(R.id.btn_acionar);
         btn_menu = findViewById(R.id.btn_menu);
     }
-    private void navegaTelaSucesso(double latitude, double longitude){
+    private void navegaTelaSucesso(double latitude, double longitude, long id){
         Intent telaSucesso = new Intent(AcionamentoActivity.this, SucessoActivity.class);
         telaSucesso.putExtra("latitude", latitude);
         telaSucesso.putExtra("longitude", longitude);
+        telaSucesso.putExtra("id", id);
         startActivity(telaSucesso);
     }
 
@@ -105,9 +110,8 @@ public class AcionamentoActivity extends AppCompatActivity {
     }
 
     private void navegaTelaHistorio(){
-        //TODO: Navegar para tela de histórico
-        //Intent telaHistoria = new Intent(AcionamentoActivity.this, HistoricoActivity.class);
-        //startActivity(telaHistoria);
+        Intent telaHistoria = new Intent(AcionamentoActivity.this, HistoricoActivity.class);
+        startActivity(telaHistoria);
     }
 
     private void abrirMenu() {
@@ -234,9 +238,8 @@ public class AcionamentoActivity extends AppCompatActivity {
         // Ações do botão confirmar dentro do pop-up
         btn_Confirmar.setOnClickListener(v -> {
             bottomSheetDialog.dismiss();
-            registrarAtivacao(localSelecionado[0].getLatitude(), localSelecionado[0].getLongitude());
-            navegaTelaSucesso(localSelecionado[0].getLatitude(), localSelecionado[0].getLongitude());
-            finish();
+            String status = "aberto";
+            registrarAtivacao(status, localSelecionado[0].getLatitude(), localSelecionado[0].getLongitude());
         });
 
         // Ações do botão cancelar dentro do pop-up
@@ -262,15 +265,18 @@ public class AcionamentoActivity extends AppCompatActivity {
                 String cidade = address.getSubAdminArea() != null ? " - " + address.getSubAdminArea() : "";
 
                 String enderecoCompleto = rua + numero + bairro + cidade;
+                activation.setLocation(enderecoCompleto);
 
                 // Atualiza o texto do aviso com o endereço real
                 txt_confirm_warning.setText("O socorro será enviado para:\n" + enderecoCompleto + "\n\n(Se necessário, segure pressionado no mapa para corrigir o ponto).");
             } else {
+                activation.setLocation("Coordenadas: " + latitude + ", " + longitude + " - Endereço não encontrado.");
                 txt_confirm_warning.setText("Endereço por extenso não encontrado. Mas enviaremos o socorro para as coordenadas geográficas deste ponto.");
             }
         } catch (Exception e) {
             e.printStackTrace();
             // Fallback caso o aparelho esteja sem internet ou o serviço do Google de Geocode falhe temporariamente
+            activation.setLocation("Coordenadas: " + latitude + ", " + longitude + " - Endereço não encontrado.");
             txt_confirm_warning.setText("Socorro será enviado para as coordenadas: " + latitude + ", " + longitude + "\n\n(Segure pressionado no mapa para corrigir o ponto).");
         }
     }
@@ -309,6 +315,33 @@ public class AcionamentoActivity extends AppCompatActivity {
         }
     }
 
+    private void registrarAtivacao(String status, double latitude, double longitude) {
+        // Obter data e hora atuais
+        String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+        String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+
+        activation.setUserId(mAuth.getCurrentUser().getUid());
+        activation.setDate(currentDate);
+        activation.setTime(currentTime);
+        //location definido no método atualizarEnderecoTexto
+        activation.setStatus(status);
+
+        // Inserir no banco de dados em thread separada
+        db = AppDatabase.getDatabase(getApplicationContext());
+        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                long id = db.buttonActivationDao().insert(activation);
+                Log.w("DEBUG_Ativacao", "Chamado de socorro registrado com sucesso! ID: " + id);
+
+                runOnUiThread(() -> {
+                    navegaTelaSucesso(latitude, longitude, id);
+                    finish();
+                });
+            }
+        });
+    }
+
     private void reload() { }
 
     @Override
@@ -321,26 +354,6 @@ public class AcionamentoActivity extends AppCompatActivity {
                 reload();
             }
         }
-    }
-
-    private void registrarAtivacao(double latitude, double longitude) {
-        // Obter data e hora atuais
-        String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
-        String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
-
-        // Obter localização (você já tem o código de geolocalização)
-        String currentLocation = "Lat: " + latitude + ", Lng: " + longitude;
-
-        final ButtonActivation activation = new ButtonActivation(currentDate, currentTime, currentLocation);
-
-        // Inserir no banco de dados em thread separada
-        AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
-        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                db.buttonActivationDao().insert(activation);
-            }
-        });
     }
 
 }
