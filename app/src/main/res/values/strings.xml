@@ -38,6 +38,6 @@
     <string name="label_personal_info">Informações Pessoais</string>
     <string name="label_heimlich">Manobras de desengasgo</string>
 
-    <!-- Placeholder para compilação sem o plugin do Google Services. Substitua pelo arquivo real. -->
-    <string name="default_web_client_id">dummy-client-id</string>
+    <!-- Placeholder para compilação sem o plugin do Google Services. Substitua pelo arquivo real. 
+    <string name="default_web_client_id">dummy-client-id</string>-->
 </resources>
