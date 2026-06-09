@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.sosengasgo_android.database.AppDatabase;
+
 public class HistoricoActivity extends AppCompatActivity {
 
     private HistoricoAdapter adapter;

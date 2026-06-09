@@ -1,4 +1,4 @@
-package com.example.sosengasgo_android;
+package com.example.sosengasgo_android.database;
 
 import android.content.Context;
 
@@ -7,7 +7,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.example.sosengasgo_android.model.ButtonActivation;
-import com.example.sosengasgo_android.model.ButtonActivationDao;
+import com.example.sosengasgo_android.dao.ButtonActivationDao;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

@@ -1,9 +1,11 @@
-package com.example.sosengasgo_android.model;
+package com.example.sosengasgo_android.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+
+import com.example.sosengasgo_android.model.ButtonActivation;
 
 import java.util.List;
 
