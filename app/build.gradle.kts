@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     //firebase
-    // id("com.google.gms.google-services") // Comentado para permitir o build sem o arquivo google-services.json
+    id("com.google.gms.google-services") // Se necessário, comentar para permitir o build sem o arquivo google-services.json
 }
 
 android {
