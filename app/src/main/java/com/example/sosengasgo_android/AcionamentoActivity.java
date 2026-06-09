@@ -76,8 +76,10 @@ public class AcionamentoActivity extends AppCompatActivity {
         btn_acionar = findViewById(R.id.btn_acionar);
         btn_menu = findViewById(R.id.btn_menu);
     }
-    private void navegaTelaSucesso(){
+    private void navegaTelaSucesso(double latitude, double longitude){
         Intent telaSucesso = new Intent(AcionamentoActivity.this, SucessoActivity.class);
+        telaSucesso.putExtra("latitude", latitude);
+        telaSucesso.putExtra("longitude", longitude);
         startActivity(telaSucesso);
     }
 
@@ -208,7 +210,7 @@ public class AcionamentoActivity extends AppCompatActivity {
         // Ações do botão confirmar dentro do pop-up
         btn_Confirmar.setOnClickListener(v -> {
             bottomSheetDialog.dismiss();
-            navegaTelaSucesso();
+            navegaTelaSucesso(localSelecionado[0].getLatitude(), localSelecionado[0].getLongitude());
             finish();
         });
 
