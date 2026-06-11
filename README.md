@@ -1,34 +1,38 @@
 # 🚑 SOS Engasgo (Android)
 
-> **Status do Projeto:** 🏗️ Em Desenvolvimento (Fase Inicial)  
-> Aplicativo dedicado a fornecer orientações rápidas sobre manobras de desengasgo em situações de emergência.
+> **Status do Projeto:** 🏗️ Em Desenvolvimento  
+> Aplicativo dedicado a fornecer orientações rápidas sobre manobras de desengasgo e acionamento de emergência.
 
 ![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
 ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
 ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
-![Gradle](https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)
 
 ---
 
 ## 📋 Sobre o Projeto
-O **SOS Engasgo** é um projeto acadêmico (Projeto Integrador) da **Fatec Indaiatuba**. O objetivo é oferecer um guia visual interativo para primeiros socorros em casos de obstrução de vias aéreas.
+O **SOS Engasgo** é um projeto acadêmico (Projeto Integrador) da **Fatec Indaiatuba**. O objetivo é oferecer um guia visual interativo para primeiros socorros em casos de obstrução de vias aéreas (Manobra de Heimlich).
 
-Esta versão representa a **migração mobile**, priorizando a agilidade no acesso à informação em momentos críticos.
+Esta versão mobile prioriza a agilidade no acesso à informação e o registro de acionamentos para facilitar o socorro.
 
 ## 🗺️ Roadmap de Desenvolvimento
 - [x] Configuração inicial do projeto Android Studio.
 - [x] Implementação da **Tela de Boas-vindas**.
-- [x] Integração com **Firebase Authentication** (Login/Cadastro).
+- [x] Integração com **Firebase Authentication** (E-mail/Senha e Google Login).
 - [x] Implementação de animações visuais (Heartbeat).
-- [ ] Implementação da arquitetura base (MVVM/Clean).
-- [ ] Desenvolvimento da interface de orientações de primeiros socorros.
-- [ ] Integração com **Firebase Realtime Database**.
-- [ ] Sistema de chamadas de emergência rápida.
+- [x] Implementação de banco de dados local (**Room**) para histórico de acionamentos.
+- [x] Integração com **Mapas (OpenStreetMap)** e **Geocodificação** para localização do incidente.
+- [x] Interface de **Acionamento de Emergência** interativa.
+- [ ] Desenvolvimento da interface detalhada de orientações (Passo a passo visual).
+- [ ] Implementação de sistema de chamadas de emergência rápida (Discagem direta 192/193).
+- [ ] Refatoração para arquitetura MVVM.
 
 ## 🛠️ Tecnologias e Ferramentas
 * **Linguagem:** Java.
-* **Interface:** XML Layouts.
+* **Interface:** XML Layouts (Material Design 3).
 * **Backend:** Firebase (Auth & Database).
+* **Banco de Dados Local:** Room Persistence Library.
+* **Mapas:** osmdroid (OpenStreetMap).
 * **Min SDK:** API 24 (Android 7.0+).
 * **Ferramenta de Build:** Gradle (KTS).
 * **IDE:** Android Studio.
@@ -41,20 +45,18 @@ Para colaborar ou testar o aplicativo em sua máquina:
    `git clone https://github.com/thibastos0/SOSEngasgo_Android.git`
 2. **Abra no Android Studio:** Selecione `File > Open` e escolha a pasta do projeto clonado.
 3. **Sincronize o Gradle:** O Android Studio baixará automaticamente as dependências.
-4. **Execute:** Use um Emulador ou dispositivo físico (API 24+).
+4. **Firebase:** É necessário adicionar o arquivo `google-services.json` na pasta `/app` para as funcionalidades de login.
+5. **Execute:** Use um Emulador ou dispositivo físico (API 24+).
 
 ## 🤝 Metodologia de Trabalho (Fluxo de Branch e Pull Request)
 Para garantir a estabilidade do código, **não é permitido dar Push direto na `main`**. Siga este fluxo:
 
 1. **PULL antes de tudo:** Certifique-se de estar na branch `main` e dê um `git pull`.
-2. **Crie uma BRANCH:** No canto inferior direito do Android Studio, clique em `Git: main` > `New Branch`. Use nomes descritivos (ex: `feature-login`, `fix-layout-home`).
-3. **Desenvolva e Commite:** Faça suas alterações e dê o `Commit` normalmente na sua branch.
+2. **Crie uma BRANCH:** No Android Studio, `Git: main` > `New Branch`. Use nomes descritivos (ex: `feature-mapas`, `fix-login-layout`).
+3. **Desenvolva e Commite:** Faça suas alterações e dê o `Commit` na sua branch.
 4. **PUSH da Branch:** Dê o `Push` da sua branch para o GitHub.
-5. **Abra um PULL REQUEST (PR):** 
-   - Vá ao site do GitHub.
-   - Clique no botão amarelo **"Compare & pull request"**.
-   - Descreva o que você fez e solicite a revisão.
-6. **REVISÃO e MERGE:** O dono do projeto (ou outro colega) revisará o código. Se estiver tudo OK, o Merge será feito para a `main`.
+5. **Abra um PULL REQUEST (PR):** Descreva o que você fez e solicite a revisão.
+6. **REVISÃO e MERGE:** Após a revisão, o Merge será feito para a `main`.
 
 ---
 
@@ -63,6 +65,7 @@ Para garantir a estabilidade do código, **não é permitido dar Push direto na 
 * **Gustavo Martins** [GustaMMartins](https://github.com/GustaMMartins)
 * **Lucas Corrêa** [Lucas-C3p](https://github.com/Lucas-C3p)
 * **Ruylis Bialta** [ruylis](https://github.com/ruylis)
+* **Gustavo Bravo** [wgustw](https://github.com/wgustw)
 
 ---
 *Este projeto tem fins educacionais e busca disseminar conhecimento sobre primeiros socorros.*
