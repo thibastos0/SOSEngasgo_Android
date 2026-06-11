@@ -46,7 +46,8 @@ public class LoginActivity extends AppCompatActivity {
     private MaterialButton btn_GoogleLogin;
     private TextView txt_cadastro_spannable;
     private EditText login_user, login_pass;
-    private ProgressBar progressBar_login;
+    private ProgressBar progressBar_login, progressBar_loading;
+    private View group_login;
     private Boolean googleChoosed = false;
     private FirebaseAuth mAuth;
 
@@ -77,9 +78,22 @@ public class LoginActivity extends AppCompatActivity {
         btn_GoogleLogin = findViewById(R.id.btn_GoogleLogin);
         txt_cadastro_spannable = findViewById(R.id.txt_cadastro_spannable);
         progressBar_login = findViewById(R.id.progressBar_login);
+        progressBar_loading = findViewById(R.id.progressBar_loading);
+        group_login = findViewById(R.id.group_login);
+    }
+
+    private void showLoading() {
+        group_login.setVisibility(View.INVISIBLE);
+        progressBar_loading.setVisibility(View.VISIBLE);
+    }
+
+    private void hideLoading() {
+        group_login.setVisibility(View.VISIBLE);
+        progressBar_loading.setVisibility(View.GONE);
     }
 
     private void signInGoogle() {
+        showLoading();
         // Instantiate a Google sign-in request
         // defaul_web_client_id só aparece se der build já com o novo google-services.json
         GetGoogleIdOption googleIdOption = new GetGoogleIdOption.Builder()
@@ -110,6 +124,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onError(GetCredentialException e) {
                         Log.e("GoogleAuth", "Erro ao obter credencial. e: " + e.getLocalizedMessage());
+                        runOnUiThread(() -> hideLoading());
                     }
                 }
         );
@@ -158,6 +173,7 @@ public class LoginActivity extends AppCompatActivity {
                     } else {
                         // If sign in fails, display a message to the user
                         Log.w("GoogleAuth", "signInWithCredential:failure ", task.getException());
+                        hideLoading();
                     }
                 });
     }
@@ -175,11 +191,13 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        showLoading();
         mAuth.signInWithEmailAndPassword(email_user, pass_user).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
 
                 if(!task.isSuccessful()) {
+                    hideLoading();
                     String erro;
                     try {
                         throw  task.getException();
@@ -218,7 +236,7 @@ public class LoginActivity extends AppCompatActivity {
             FirebaseUser logged_user = mAuth.getCurrentUser();
 
             if (logged_user != null) {
-                progressBar_login.setVisibility(View.VISIBLE);
+                showLoading();
                 navegaTelaAcionamento();
             }
         }
