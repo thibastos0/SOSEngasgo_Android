@@ -25,6 +25,7 @@ public class SucessoActivity extends AppCompatActivity {
     private TextView txt_instrucao_topo;
     private AppDatabase db;
     private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +44,18 @@ public class SucessoActivity extends AppCompatActivity {
         double longitude = getIntent().getDoubleExtra("longitude", 0);
         atualizarEnderecoTexto(latitude, longitude);
         long id = getIntent().getLongExtra("id", 0);
+
+        boolean telegramConfirmado = getIntent().getBooleanExtra("telegramConfirm", false);
+
+        if (telegramConfirmado) {
+            Log.i("DEBUG_Sucesso", "Telegram confirmado.");
+        } else {
+            txt_instrucao_topo.setText(
+                    "⚠️ Socorro acionado, mas a notificação pode não ter chegado.\n\n" +
+                            "Inicie a manobra agora e tente contatar o responsável diretamente."
+            );
+            Log.e("DEBUG_Sucesso", "Telegram não confirmado.");
+        }
 
         db = AppDatabase.getDatabase(this);
 

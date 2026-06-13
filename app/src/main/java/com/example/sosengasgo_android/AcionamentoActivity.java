@@ -24,6 +24,7 @@ import androidx.core.content.ContextCompat;
 
 import com.example.sosengasgo_android.database.AppDatabase;
 import com.example.sosengasgo_android.model.ButtonActivation;
+import com.example.sosengasgo_android.network.EmergenciaApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.Priority;
@@ -90,11 +91,12 @@ public class AcionamentoActivity extends AppCompatActivity {
         btn_acionar = findViewById(R.id.btn_acionar);
         btn_menu = findViewById(R.id.btn_menu);
     }
-    private void navegaTelaSucesso(double latitude, double longitude, long id){
+    private void navegaTelaSucesso(double latitude, double longitude, long id, boolean telegramConfirm){
         Intent telaSucesso = new Intent(AcionamentoActivity.this, SucessoActivity.class);
         telaSucesso.putExtra("latitude", latitude);
         telaSucesso.putExtra("longitude", longitude);
         telaSucesso.putExtra("id", id);
+        telaSucesso.putExtra("telegramConfirm", telegramConfirm);
         startActivity(telaSucesso);
     }
 
@@ -320,26 +322,66 @@ public class AcionamentoActivity extends AppCompatActivity {
         String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
         String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
 
-        activation.setUserId(mAuth.getCurrentUser().getUid());
+        FirebaseUser user = mAuth != null ? mAuth.getCurrentUser() : null;
+
+        if (user == null) {
+            Toast.makeText(this, "Usuário não autenticado!", Toast.LENGTH_SHORT).show();
+            navegaTelaMain();
+            return;
+        }
+
+        activation.setUserId(user.getUid());
         activation.setDate(currentDate);
         activation.setTime(currentTime);
         //location definido no método atualizarEnderecoTexto
         activation.setStatus(status);
 
-        // Inserir no banco de dados em thread separada
-        db = AppDatabase.getDatabase(getApplicationContext());
-        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                long id = db.buttonActivationDao().insert(activation);
-                Log.w("DEBUG_Ativacao", "Chamado de socorro registrado com sucesso! ID: " + id);
+        // array para guardar resultados das duas operações paralelas
+        long[] idHolder = {-1};
+        boolean[] telegramOkHolder = {false};
+        boolean[] bancoOk = {false};
+        boolean[] telegramOk = {false};
 
-                runOnUiThread(() -> {
-                    navegaTelaSucesso(latitude, longitude, id);
-                    finish();
-                });
+        Runnable tentarNavegar = () -> runOnUiThread(() -> {
+            if (bancoOk[0] && telegramOk[0]) {
+                navegaTelaSucesso(latitude, longitude, idHolder[0], telegramOkHolder[0]);
+                finish();
             }
         });
+
+        // Inserir no banco de dados em thread separada
+        AppDatabase.databaseWriteExecutor.execute(() ->{
+
+                idHolder[0] = db.buttonActivationDao().insert(activation);
+                Log.w("DEBUG_Ativacao", "Chamado de socorro registrado com sucesso! ID: " + idHolder[0]);
+                bancoOk[0] = true;
+                tentarNavegar.run();
+        });
+
+        //API telegram para notificação via broadcast na tela de sucesso
+        user.getIdToken(true).addOnSuccessListener(result -> {
+            String token = result.getToken();
+
+            new EmergenciaApiClient(this).acionarEmergencia(token, latitude, longitude,
+                    new EmergenciaApiClient.Callback() {
+                        @Override
+                        public void onSucesso() {
+                            telegramOkHolder[0] = true;
+                            telegramOk[0] = true;
+                            Log.i("DEBUG_Emergencia", "Telegram confirmado!");
+                            tentarNavegar.run();
+                        }
+
+                        @Override
+                        public void onErro(String msg) {
+                            telegramOkHolder[0] = false; //falha no telegram
+                            telegramOk[0] = true;
+                            Log.e("DEBUG_Emergencia", "Telegram falhou: " + msg);
+                            tentarNavegar.run();
+                        }
+            });
+        });
+
     }
 
     private void reload() { }

@@ -76,4 +76,7 @@ dependencies {
     // RecyclerView para exibir lista
     implementation("androidx.recyclerview:recyclerview:1.3.2")
 
+    //para acessar a internet API telebram na versão Web Render
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+
 }
