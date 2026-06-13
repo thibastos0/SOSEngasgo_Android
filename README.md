@@ -32,7 +32,7 @@ Esta versão mobile prioriza a agilidade no acesso à informação e o registro 
 ## 🛠️ Tecnologias e Ferramentas
 * **Linguagem:** Java.
 * **Interface:** XML Layouts (Material Design 3).
-* **Backend:** Firebase (Auth) e API REST (Render).
+* **Backend:** Firebase (Auth) e API REST (Railway/Render).
 * **Notificações:** Integração com Telegram Bot.
 * **Banco de Dados Local:** Room Persistence Library.
 * **Mapas:** osmdroid (OpenStreetMap).
@@ -50,7 +50,8 @@ Para colaborar ou testar o aplicativo em sua máquina:
 2. **Abra no Android Studio:** Selecione `File > Open` e escolha a pasta do projeto clonado.
 3. **Sincronize o Gradle:** O Android Studio baixará automaticamente as dependências.
 4. **Firebase:** É necessário adicionar o arquivo `google-services.json` na pasta `/app` para as funcionalidades de login.
-5. **API de Emergência:** Para testar o acionamento com o bot do Telegram, o serviço hospedado no Render ([https://sosengasgo.onrender.com/](https://sosengasgo.onrender.com/)) deve estar ativo.
+5. **API de Emergência:** Para testar o acionamento com o bot do Telegram, o serviço está atualmente hospedado no Railway ([https://sosengasgo-sosengasgoproduction.up.railway.app](https://sosengasgo-sosengasgoproduction.up.railway.app)).
+   - **Nota importante:** O serviço no Railway é temporário (30 dias). Caso o acionamento falhe após esse período, é necessário alternar para o endpoint do Render.com ou rodar o serviço localmente.
 6. **Execute:** Use um Emulador ou dispositivo físico (API 24+).
 
 ## 🤝 Metodologia de Trabalho (Fluxo de Branch e Pull Request)

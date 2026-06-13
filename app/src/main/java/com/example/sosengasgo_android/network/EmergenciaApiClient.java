@@ -17,7 +17,8 @@ import okhttp3.Response;
 
 public class EmergenciaApiClient {
 
-    private static final String BASE_URL = "https://sosengasgo.onrender.com";
+    //private static final String BASE_URL = "https://sosengasgo.onrender.com";
+    private static final String BASE_URL = "https://sosengasgo-sosengasgoproduction.up.railway.app";
     private final OkHttpClient client = new OkHttpClient();
     private final Context context;
 
