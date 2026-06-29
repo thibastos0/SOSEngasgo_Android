@@ -5,6 +5,7 @@
 
 ![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
 ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
 ![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)
 ![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)
@@ -30,10 +31,10 @@ Esta versão mobile prioriza a agilidade no acesso à informação e o registro 
 - [ ] Refatoração para arquitetura MVVM.
 
 ## 🛠️ Tecnologias e Ferramentas
-* **Linguagem:** Java.
+* **Linguagem:** Java (Android) e Python (API).
 * **Interface:** XML Layouts (Material Design 3).
-* **Backend:** Firebase (Auth) e API REST (Railway/Render).
-* **Notificações:** Integração com Telegram Bot.
+* **Backend:** Firebase (Auth) e Python API (Vercel).
+* **Notificações:** Integração com Telegram Bot via Webhook.
 * **Banco de Dados Local:** Room Persistence Library.
 * **Mapas:** osmdroid (OpenStreetMap).
 * **Rede:** OkHttp para consumo de API.
@@ -50,8 +51,7 @@ Para colaborar ou testar o aplicativo em sua máquina:
 2. **Abra no Android Studio:** Selecione `File > Open` e escolha a pasta do projeto clonado.
 3. **Sincronize o Gradle:** O Android Studio baixará automaticamente as dependências.
 4. **Firebase:** É necessário adicionar o arquivo `google-services.json` na pasta `/app` para as funcionalidades de login.
-5. **API de Emergência:** Para testar o acionamento com o bot do Telegram, o serviço está atualmente hospedado no Railway ([https://sosengasgo-sosengasgoproduction.up.railway.app](https://sosengasgo-sosengasgoproduction.up.railway.app)).
-   - **Nota importante:** O serviço no Railway é temporário (30 dias). Caso o acionamento falhe após esse período, é necessário alternar para o endpoint do Render.com ou rodar o serviço localmente.
+5. **API de Emergência:** O acionamento de emergência consome uma API Python hospedada no Vercel ([https://sosengasgo-api-telegram.vercel.app](https://sosengasgo-api-telegram.vercel.app)), que gerencia as notificações do bot do Telegram.
 6. **Execute:** Use um Emulador ou dispositivo físico (API 24+).
 
 ## 🤝 Metodologia de Trabalho (Fluxo de Branch e Pull Request)
