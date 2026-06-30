@@ -29,12 +29,17 @@ public class EmergenciaApiClient {
     }
 
     public interface Callback {
-        void onSucesso();
+        void onSucesso(String chave);
         void onErro(String mensagem);
     }
 
-    public void acionarEmergencia(String firebaseToken, double lat, double lng, Callback callback) {
-        String json = "{\"latitude\":" + lat + ",\"longitude\":" + lng + "}";
+    public void acionarEmergencia(String firebaseToken, double lat, double lng, long acionamentoId, String uid, Callback callback) {
+        String chave = acionamentoId + "_" + uid;
+        String json = "{\"latitude\":" + lat
+                + ",\"longitude\":" + lng
+                + ",\"acionamento_id\":" + acionamentoId
+                + ",\"uid\":\"" + uid + "\""
+                + ",\"chave\":\"" + chave + "\"}";
 
         Request request = new Request.Builder()
                 .url(BASE_URL + "/api/emergencia/acionar")
@@ -60,11 +65,46 @@ public class EmergenciaApiClient {
                 );*/
 
                 if (response.isSuccessful()) {
-                    callback.onSucesso();
+                    callback.onSucesso(chave);
                     Log.i("DEBUG_Emergencia", "Emergência acionada com sucesso! \n" + respostaCompleta);
                 } else {
                     callback.onErro("Erro " + response.code() + ": " + respostaCompleta);
                     Log.e("DEBUG_Emergencia", "Erro ao acionar emergência: " + respostaCompleta);
+                }
+            }
+        });
+    }
+
+    public interface StatusCallback {
+        void onConfirmado(String resposta);
+        void onAguardando();
+    }
+
+    public void consultarStatus(String chave, String firebaseToken, StatusCallback callback) {
+        Request request = new Request.Builder()
+                .url(BASE_URL + "/api/emergencia/status/" + chave)
+                .get()
+                .addHeader("Authorization", "Bearer " + firebaseToken)
+                .build();
+
+        client.newCall(request).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("DEBUG_Status", "Falha: " + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    String body = response.body().string();
+                    org.json.JSONObject json = new org.json.JSONObject(body);
+                    if (json.optBoolean("confirmado", false)) {
+                        callback.onConfirmado(json.optString("resposta", "Responsável a caminho!"));
+                    } else {
+                        callback.onAguardando();
+                    }
+                } catch (Exception e) {
+                    Log.e("DEBUG_Status", "Erro ao parsear: " + e.getMessage());
                 }
             }
         });
