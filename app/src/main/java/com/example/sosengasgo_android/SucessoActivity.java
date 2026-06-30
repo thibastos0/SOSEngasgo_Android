@@ -13,6 +13,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sosengasgo_android.database.AppDatabase;
+import com.example.sosengasgo_android.network.EmergenciaApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public class SucessoActivity extends AppCompatActivity {
     private TextView txt_instrucao_topo;
     private AppDatabase db;
     private FirebaseAuth mAuth;
+    private final boolean[] pollingAtivo = {true};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,43 @@ public class SucessoActivity extends AppCompatActivity {
                             "Inicie a manobra agora e tente contatar o responsável diretamente."
             );
             Log.e("DEBUG_Sucesso", "Telegram não confirmado.");
+        }
+
+        String chave = getIntent().getStringExtra("chave");
+        String firebaseToken = getIntent().getStringExtra("firebaseToken");
+
+        if (chave != null && !chave.isEmpty() && firebaseToken != null) {
+            EmergenciaApiClient apiClient = new EmergenciaApiClient(this);
+            final boolean[] respondido = {false};
+
+            new Thread(() -> {
+                while (!respondido[0] && pollingAtivo[0]) {
+                    try {
+                        Thread.sleep(5000);
+                        apiClient.consultarStatus(chave, firebaseToken,
+                                new EmergenciaApiClient.StatusCallback() {
+                                    @Override
+                                    public void onConfirmado(String resposta) {
+                                        respondido[0] = true;
+                                        runOnUiThread(() -> {
+                                            txt_instrucao_topo.setText(
+                                                    "✅ " + resposta + "\n\nContinue a manobra de Heimlich!");
+                                            android.os.Vibrator v = (android.os.Vibrator)
+                                                    getSystemService(VIBRATOR_SERVICE);
+                                            if (v != null) v.vibrate(500);
+                                        });
+                                    }
+
+                                    @Override
+                                    public void onAguardando() {
+                                        Log.d("DEBUG_Polling", "Aguardando resposta do responsável...");
+                                    }
+                                });
+                    } catch (InterruptedException e) {
+                        break;
+                    }
+                }
+            }).start();
         }
 
         db = AppDatabase.getDatabase(this);
@@ -128,6 +167,12 @@ public class SucessoActivity extends AppCompatActivity {
     private void navegaTelaAcionamento(){
         Intent telaAcionamento = new Intent(SucessoActivity.this, AcionamentoActivity.class);
         startActivity(telaAcionamento);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        pollingAtivo[0] = false;
     }
 
 }
